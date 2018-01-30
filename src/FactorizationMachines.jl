@@ -11,10 +11,10 @@ export  train, predict, predict!,
         Evaluators,
         Methods
 
-typealias FMFloat Float64
-typealias FMInt Int64
-typealias FMMatrix SparseMatrixCSC{Float64,Int64}
-typealias FMVector SparseMatrixCSC{Float64,Int64}
+const FMFloat = Float64
+const FMInt = Int64
+const FMMatrix = SparseMatrixCSC{Float64,Int64}
+const FMVector = SparseMatrixCSC{Float64,Int64}
 
 include("common.jl")
 

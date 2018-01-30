@@ -1,10 +1,10 @@
 using FactorizationMachines.Methods: MethodParams, SGDMethod, sgd, sgd_train!
 using FactorizationMachines.Evaluators: Evaluator
-using FactorizationMachines.Tasks: TaskParams 
-using FactorizationMachines.Models: ModelParams 
+using FactorizationMachines.Tasks: TaskParams
+using FactorizationMachines.Models: ModelParams
 using FactorizationMachines.Predictors: FMPredictor
 
-function train(X::FMMatrix, y::Vector{FMFloat}; 
+function train(X::SparseMatrixCSC{Float64,Int64}, y::Vector{Float64}; 
         method::SGDMethod         = Methods.sgd(alpha = 0.01, num_epochs = 100, reg0 = .0, regv = .0, regw = .0),
         evaluator::Evaluator      = Evaluators.rmse(),
         task_params::TaskParams   = Tasks.regression(),

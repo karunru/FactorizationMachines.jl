@@ -6,7 +6,7 @@ using FactorizationMachines.Common
 using FactorizationMachines.Predictors: FMPredictor, predict!
 using FactorizationMachines.Tasks: PredictorTask
 
-abstract Evaluator
+abstract type Evaluator end
 
 immutable SquaredErrorEvaluator <: Evaluator
     stat::Function
@@ -15,13 +15,13 @@ immutable SquaredErrorEvaluator <: Evaluator
 end
 const rmse = SquaredErrorEvaluator
 
-function evaluate{T<:PredictorTask}(evaluator::SquaredErrorEvaluator, predictor::FMPredictor{T}, 
+function evaluate{T<:PredictorTask}(evaluator::SquaredErrorEvaluator, predictor::FMPredictor{T},
         X::FMMatrix, y::Vector{FMFloat})
     predictions = zeros(X.n)
     evaluate!(evaluator, predictor, X, y, predictions)
 end
 
-function evaluate!{T<:PredictorTask}(evaluator::SquaredErrorEvaluator, predictor::FMPredictor{T}, 
+function evaluate!{T<:PredictorTask}(evaluator::SquaredErrorEvaluator, predictor::FMPredictor{T},
         X::FMMatrix, y::Vector{FMFloat}, predictions::Vector{FMFloat})
     @time predict!(predictor, X, predictions)
     err = [Common.sqerr(predictions[i], y[i]) for i in 1:length(y)]
@@ -35,13 +35,13 @@ immutable HeavisideEvaluator <: Evaluator
 end
 const heaviside = HeavisideEvaluator
 
-function evaluate{T<:PredictorTask}(evaluator::HeavisideEvaluator, predictor::FMPredictor{T}, 
+function evaluate{T<:PredictorTask}(evaluator::HeavisideEvaluator, predictor::FMPredictor{T},
         X::FMMatrix, y::Vector{FMFloat})
     predictions = zeros(X.n)
     evaluate!(evaluator, predictor, X, y, predictions)
 end
 
-function evaluate!{T<:PredictorTask}(evaluator::HeavisideEvaluator, predictor::FMPredictor{T}, 
+function evaluate!{T<:PredictorTask}(evaluator::HeavisideEvaluator, predictor::FMPredictor{T},
         X::FMMatrix, y::Vector{FMFloat}, predictions::Vector{FMFloat})
     @time predict!(predictor, X, predictions)
     err = [Common.heaviside(predictions[i], y[i]) for i in 1:length(y)]

@@ -4,8 +4,8 @@ export TaskParams, PredictorTask
 using FactorizationMachines: FMMatrix, FMFloat
 using FactorizationMachines.Common: nlogsig, nlogsig_deriv, sqerr, sqerr_deriv
 
-abstract TaskParams
-abstract PredictorTask
+abstract type TaskParams end
+abstract type PredictorTask end
 
 """Represents a classification task"""
 immutable ClassificationTaskParams <: TaskParams

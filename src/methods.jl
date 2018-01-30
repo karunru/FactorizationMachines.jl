@@ -7,7 +7,7 @@ using FactorizationMachines.Models: FMModel
 using FactorizationMachines.Predictors: FMPredictor, predict_instance!
 using FactorizationMachines.Evaluators: Evaluator, evaluate!
 
-abstract MethodParams
+abstract type MethodParams end
 
 immutable SGDMethod <: MethodParams
   alpha::FMFloat
@@ -24,7 +24,7 @@ end
 const sgd = SGDMethod
 
 function sgd_train!{T<:PredictorTask}(
-    sgd::SGDMethod, evaluator::Evaluator, predictor::FMPredictor{T}, 
+    sgd::SGDMethod, evaluator::Evaluator, predictor::FMPredictor{T},
     X::FMMatrix, y::StridedVector{FMFloat})
 
     predictions = zeros(length(y))
@@ -34,15 +34,15 @@ function sgd_train!{T<:PredictorTask}(
     info("Learning Factorization Machines with gradient descent...")
     for epoch in 1:sgd.num_epochs
         #info("[SGD - Epoch $epoch] Start...")
-        @time sgd_epoch!(sgd, evaluator, predictor, 
-                         X, y, epoch, sgd.alpha, 
+        @time sgd_epoch!(sgd, evaluator, predictor,
+                         X, y, epoch, sgd.alpha,
                          predictions, f_sum, sum_sqr)
         #info("[SGD - Epoch $epoch] End.")
     end
 end
 
 function sgd_epoch!{T<:PredictorTask}(
-        sgd::SGDMethod, evaluator::Evaluator, predictor::FMPredictor{T}, 
+        sgd::SGDMethod, evaluator::Evaluator, predictor::FMPredictor{T},
         X::FMMatrix, y::StridedVector{FMFloat}, epoch::Integer, alpha::FMFloat,
         predictions::Vector{FMFloat}, f_sum::Vector{FMFloat}, sum_sqr::Vector{FMFloat})
 
@@ -66,8 +66,8 @@ function sgd_epoch!{T<:PredictorTask}(
 end
 
 function sgd_update!(
-        sgd::SGDMethod, model::FMModel, alpha::FMFloat, 
-        idx::StridedVector{Int64}, x::StridedVector{FMFloat}, 
+        sgd::SGDMethod, model::FMModel, alpha::FMFloat,
+        idx::StridedVector{Int64}, x::StridedVector{FMFloat},
         mult::FMFloat, f_sum::Vector{FMFloat})
 
     if model.k0

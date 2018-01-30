@@ -3,7 +3,7 @@ export ModelParams
 
 using FactorizationMachines: FMMatrix, FMFloat
 
-abstract ModelParams
+abstract type ModelParams end
 
 immutable GaussianModelParams <: ModelParams
     k0::Bool
@@ -43,8 +43,8 @@ type FMModel
     num_factors::Int
 end
 
-function predict_instance!(model::FMModel, 
-                           idx::StridedVector{Int64}, x::StridedVector{FMFloat}, 
+function predict_instance!(model::FMModel,
+                           idx::StridedVector{Int64}, x::StridedVector{FMFloat},
                            f_sum::Vector{FMFloat}, sum_sqr::Vector{FMFloat})
     fill!(f_sum, .0)
     fill!(sum_sqr, .0)

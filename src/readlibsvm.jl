@@ -1,4 +1,4 @@
-function read_libsvm(fname::ASCIIString, dimension = :col)
+function read_libsvm(fname::AbstractString, dimension = :col)
     label = Float64[]
     mI = Int64[]
     mJ = Int64[]
@@ -19,7 +19,7 @@ function read_libsvm(fname::ASCIIString, dimension = :col)
     end
     close(fi)
 
-    if dimension == :col 
+    if dimension == :col
         (sparse(mI,mJ,mV), label)
     else
         (sparse(mJ,mI,mV), label)
