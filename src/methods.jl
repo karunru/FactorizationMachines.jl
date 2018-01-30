@@ -51,8 +51,8 @@ function sgd_epoch!{T<:PredictorTask}(
 
     for c in 1:X.n
         X_nzrange = nzrange(X, c)
-        idx = sub(X.rowval, X_nzrange)
-        x = sub(X.nzval, X_nzrange)
+        idx = view(X.rowval, X_nzrange)
+        x = view(X.nzval, X_nzrange)
         #info("DEBUG: processing $c")
         p = predict_instance!(predictor, idx, x, f_sum, sum_sqr)
         #info("DEBUG: prediction - p: $p, f_sum: $f_sum, sum_sqr: $sum_sqr")
